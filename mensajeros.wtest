@@ -1,0 +1,29 @@
+import mensajeros.*
+
+describe "Entrega de paquetes" {
+
+  test "Caso 1: Paquete no pago no puede ser entregado por Neo a la Matrix" {
+    paquete.estaPago(false)
+    assert.notThat(paquete.puedeSerEntregadoPor(neo, laMatrix))
+  }
+
+  test "Caso 2: Paquete pago puede ser entregado por Jean Gray a la Matrix" {
+    paquete.estaPago(true)
+    assert.that(paquete.puedeSerEntregadoPor(jeanGray, laMatrix))
+  }
+
+  test "Caso 3: Paquete pago NO puede ser llevado por Sara (70kg) con camión y 1 acoplado a Brooklyn" {
+    paquete.estaPago(true)
+    saraConnor.pesoPropio(70)
+    saraConnor.vehiculo(camion)
+    saraConnor.vehiculo().cantidadDeAcoplados(1)
+    assert.notThat(paquete.puedeSerEntregadoPor(saraConnor, puenteDeBrooklyn))
+  }
+
+  test "Caso 4: Paquete pago SÍ puede ser llevado por Sara (70kg) en moto a Brooklyn" {
+    paquete.estaPago(true)
+    saraConnor.pesoPropio(70)
+    saraConnor.vehiculo(moto)
+    assert.that(paquete.puedeSerEntregadoPor(saraConnor, puenteDeBrooklyn))
+  }
+}
