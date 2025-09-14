@@ -1,62 +1,29 @@
 import mensajeros.*
-describe "Paquete 1" {
-  method initialize() {
-    paquete.estaPago(false)   /
+
+describe "Entrega de paquetes" {
+
+  test "Caso 1: Paquete no pago no puede ser entregado por Neo a la Matrix" {
+    paquete.estaPago(false)
+    assert.notThat(paquete.puedeSerEntregadoPor(neo, laMatrix))
   }
-  test "Caso 1: Paquete no pago" {
-    assert.equals(false, paquete.puedeSerEntregado())   
+
+  test "Caso 2: Paquete pago puede ser entregado por Jean Gray a la Matrix" {
+    paquete.estaPago(true)
+    assert.that(paquete.puedeSerEntregadoPor(jeanGray, laMatrix))
   }
-}
- describe "Paquete 2" {
-  method initialize() {
-    paquete.estaPago(false)   /
+
+  test "Caso 3: Paquete pago NO puede ser llevado por Sara (70kg) con camión y 1 acoplado a Brooklyn" {
+    paquete.estaPago(true)
+    saraConnor.pesoPropio(70)
+    saraConnor.vehiculo(camion)
+    saraConnor.vehiculo().cantidadDeAcoplados(1)
+    assert.notThat(paquete.puedeSerEntregadoPor(saraConnor, puenteDeBrooklyn))
   }
-  test "Caso 1: Paquete pago" {
-    assert.equals(false, paquete.puedeSerEntregado())   
-  }
-}
-describe "Test 1" {
-  method initialize() {
-    paquete.estaPago(false)   
-    paquete.mensajero(neo)
-    paquete.destino(laMatrix)
-  }
-  test "Caso 1: Paquete no pago no puede ser llevado por Neo a la matrix." {
-    assert.equals(false, paquete.puedeSerEntregado())   
-  }
-}
-describe "Test 2" {
-  method initialize() {
-    paquete.estaPago(true)   
-    paquete.mensajero(jeanGray)
-    paquete.destino(laMatrix)
-  }
-  test "Caso 2 : Paquete pago puede ser llevado por Jean Gray a la matrix." {
-    assert.equals(true , paquete.puedeSerEntregado())   
-  }
-}
-describe "Test 3" {  
-  method initialize() {
-    paquete.estaPago(true)                     
-    paquete.mensajero(saraConnor)              
-    paquete.mensajero().pesoPropio(70)         
-    paquete.mensajero().vehiculo(camion)       
-    paquete.mensajero().vehiculo().cantidadDeAcoplados(1) 
-    paquete.destino(puenteDeBrooklyn)          
-  }
-  test "Caso 3: Paquete pago no puede ser llevado por Sara (70kg) a Brooklyn con camión y 1 acoplado" {
-    assert.equals(false, paquete.puedeSerEntregado())
-  }
-}
-describe "Test 4" {  
-  method initialize() {
-    paquete.estaPago(true)                     
-    paquete.mensajero(saraConnor)              
-    paquete.mensajero().pesoPropio(70)         
-    paquete.mensajero().vehiculo(moto)       
-    paquete.destino(puenteDeBrooklyn)          
-  }
-  test "Caso 4: Paquete puede ser llevado por Sara (70kg) a Brooklyn con moto" {
-    assert.equals(true, paquete.puedeSerEntregado())
+
+  test "Caso 4: Paquete pago SÍ puede ser llevado por Sara (70kg) en moto a Brooklyn" {
+    paquete.estaPago(true)
+    saraConnor.pesoPropio(70)
+    saraConnor.vehiculo(moto)
+    assert.that(paquete.puedeSerEntregadoPor(saraConnor, puenteDeBrooklyn))
   }
 }

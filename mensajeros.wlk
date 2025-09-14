@@ -1,32 +1,26 @@
-//--  Paquete  --//
+//-- Paquete --//
 object paquete {
   var property estaPago = true
-  var property mensajero = neo
-  var property destino = laMatrix
 
-  method puedeSerEntregado() {
-    return self.estaPago() && self.puedeLlegarAlDestino()
-  }
-
-  method puedeLlegarAlDestino() {
-    return self.destino().permiteIngreso(self)
+  method puedeSerEntregadoPor(unMensajero, unDestino) {
+    return self.estaPago() && unDestino.permiteIngreso(unMensajero)
   }
 }
 
-//--  Destinos  --//
+//-- Destinos --//
 object puenteDeBrooklyn {
-  method permiteIngreso(unPaquete) {
-    return unPaquete.mensajero().peso() <= 1000
+  method permiteIngreso(unMensajero) {
+    return unMensajero.peso() <= 1000
   }
 }
 
 object laMatrix {
-  method permiteIngreso(unPaquete) {
-    return unPaquete.mensajero().puedeLlamar()
+  method permiteIngreso(unMensajero) {
+    return unMensajero.puedeLlamar()
   }
 }
 
-//--  Mensajeros  --//
+//-- Mensajeros --//
 object jeanGray {
   const pesoPropio = 65
   method peso() { return pesoPropio }
@@ -46,7 +40,7 @@ object saraConnor {
   method puedeLlamar() { return false }
 }
 
-//--  Vehículos  --//
+//-- Vehículos --//
 object moto {
   const pesoMoto = 100
   method peso() { return pesoMoto }
@@ -58,3 +52,4 @@ object camion {
   var property cantidadDeAcoplados = 0
   method peso() { return PesoBase + PesoAcoplado * self.cantidadDeAcoplados() }
 }
+
